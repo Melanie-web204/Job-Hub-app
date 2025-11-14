@@ -7,57 +7,73 @@ const Header = () => {
   const user = { fullName: "Melanie", role: "employer" };
   const navigate = useNavigate();
 
-  return (
-    <header>
+  return <motion.header
+         initial={{ opacity: 0, y: -20 }}
+         animate={{ opacity: 1, y: 0 }}
+         transition={{ duration: 0.6 }}
+         className="fixed top-0 left-0 right-0 z-50  bg-white/95 backdrop-blur-sm border-b border-gray-100 flex items-center justify-between"
+    >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="">
-            <div className="">
-              <Briefcase className="" />
+          <div className="flex items-center space-x-3">
+            <div className="w-8 h-8 bg-linear-to-r from-blue-500 to-purple-600 flex items-center justify-center rounded-lg">
+              <Briefcase className="w-5 h-5 text-white" />
             </div>
-            <span className="">JobHub</span>
+            <span className="text-xl font-bold text-gray-900">JobHub</span>
           </div>
 
           {/* Navigation Links - Hidden on mobile */}
-          <nav className="">
-            <Link to="/find-jobs" className="">
+          <nav className="hidden md:flex items-center space-x-8">
+            <a
+            onClick= {() => navigate("/find-jobs")}
+            className="text-gray-600 hover:text-gray-900 transition-colors font-medium">
               Find Jobs
-            </Link>
-            <Link
-              to={
+              </a>
+
+              <a 
+              onClick={() => {
+              navigate(
                 isAuthenticated && user?.role === "employer"
-                  ? "/employer-dashboard"
-                  : "/login"
-              }
-              className=""
+                ? "/employer-dashboard"
+                : "/login"
+              );
+            }}
+            className="text-gray-600 hover:text-gray-900 transition-colors font-medium"
             >
-              For Employers
-            </Link>
+            For Employers
+            </a>
           </nav>
+            
+          
+              
+            
+            
 
           {/* Auth Buttons */}
-          <div className="">
+          <div className="flex items-center space-x-3">
             {isAuthenticated ? (
-              <div className="">
-                <span className="">Welcome, {user?.fullName} </span>
+              <div className="flex items-center space-x-3">
+                <span className="text-gray-700">Welcome, {user?.fullName} </span>
                 <Link
                   to={
                     user?.role === "employer"
                       ? "/employer-dashboard"
                       : "/find-jobs"
                   }
-                  className=""
+                  className="bg-linear-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-sm hover:shadow-md font-medium"
                 >
                   Dashboard
                 </Link>
               </div>
             ) : (
               <>
-                <Link to="/login" className="">
+                <Link to="/login" 
+                className="text-gray-600 hover:text-gray-900 transition-colors font-medium px-4 py-2 rounded-lg hover:bg-gray-500">
                   Login
                 </Link>
-                <Link to="/signup" className="">
+                <Link to="/signup"
+                 className="bg-linear-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-sm hover:shadow-md font-medium">
                   Signup
                 </Link>
               </>
@@ -65,7 +81,6 @@ const Header = () => {
           </div>
         </div>
       </div>
-    </header>
-  );
+    </motion.header>
 };
 export default Header;
